@@ -1,6 +1,9 @@
 # represents the inline text possible in HTML and Markdown
 from enum import Enum
 
+from leafnode import LeafNode
+
+
 class TextType(Enum):
     TEXT = "text"
     BOLD = "bold"
@@ -28,3 +31,20 @@ class TextNode:
     # string representation of TextNode (when printing)
     def __repr__(self):
         return f"TextNode({self.text}, {self.text_type.value}, {self.url})"
+
+
+# now we can create HTML nodes from text nodes (and then we have the to_html function that converts the ParentNode/LeafNode) which are children of HTMLNode into HTML strings
+def text_node_to_html_node(text_node):
+    match text_node.text_type:
+        case TextType.TEXT:
+            return LeafNode(None, text_node.text)
+        case TextType.BOLD:
+            return LeafNode("b", text_node.text)
+        case TextType.ITALIC:
+            return LeafNode("i", text_node.text)
+        case TextType.CODE:
+            return LeafNode("code", text_node.text)
+        case TextType.LINK:
+            return LeafNode("a", text_node.text, {"href": "link/to/location"})
+        case TextType.IMAGE:
+            return LeafNode("img", "", {"src": text_node.url, "alt": text_node.text})
