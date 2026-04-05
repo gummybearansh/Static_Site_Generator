@@ -17,7 +17,7 @@ class TextNode:
     def __init__(self, text, text_type, url=None):
         self.text = text
         # making text_type an enum (passed as a string while creation but type will be : <'enum': 'TextType'>
-        self.text_type = TextType(text_type)
+        self.text_type = text_type
         self.url = url
 
     # comparing two TextNodes to be equal if:
@@ -45,6 +45,6 @@ def text_node_to_html_node(text_node):
         case TextType.CODE:
             return LeafNode("code", text_node.text)
         case TextType.LINK:
-            return LeafNode("a", text_node.text, {"href": "link/to/location"})
+            return LeafNode("a", text_node.text, {"href": text_node.url})
         case TextType.IMAGE:
             return LeafNode("img", "", {"src": text_node.url, "alt": text_node.text})
