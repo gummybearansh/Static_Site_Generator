@@ -60,7 +60,9 @@ def heading_to_html_node(block):
 def code_to_html_node(block):
     if not block.startswith("```") or not block.endswith("```"):
         raise ValueError("Invalid Code Block")
-    text = block[3:-3].strip()
+    text = block[3:-3].lstrip()
+    # if text.startswith("\n"):
+    #     text = text[1:]
     raw_text_node = TextNode(text, TextType.TEXT)
     child = text_node_to_html_node(raw_text_node)
     code = ParentNode("code", [child])
